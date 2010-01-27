@@ -6,28 +6,38 @@ use lib 't/tlib';
 use Test::More;
 use Test::Deep;
 
-use DBICx::DataDictionary qw( fetch_type );
 use My::Schema::DataDictionary qw(PK NAME);
 
-is(PK, 'My::Schema::DataDictionary::PK', "Imported 'PK' ok");
 cmp_deeply(
-  fetch_type(PK),
+  PK,
   { data_type         => 'integer',
     is_nullable       => 0,
     is_auto_increment => 1,
   }
 );
 
-is(NAME, 'My::Schema::DataDictionary::NAME', "Imported 'NAME' ok");
 cmp_deeply(
-  fetch_type(NAME),
+  PK(is_nullable => 1),
+  { data_type         => 'integer',
+    is_nullable       => 1,
+    is_auto_increment => 1,
+  }
+);
+
+cmp_deeply(
+  NAME,
   { data_type   => 'varchar',
     is_nullable => 0,
     size        => 100,
   }
 );
 
-ok(!defined(fetch_type('non-existing')),
-  "fetch_type() returns 'undef' for an undeclared type");
+cmp_deeply(
+  NAME(size => 200),
+  { data_type   => 'varchar',
+    is_nullable => 0,
+    size        => 200,
+  }
+);
 
 done_testing();
