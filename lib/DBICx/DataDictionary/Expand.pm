@@ -1,4 +1,4 @@
-package DBICx::DataDictionary;
+package DBICx::DataDictionary::Expand;
 
 use strict;
 use warnings;
