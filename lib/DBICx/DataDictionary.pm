@@ -62,6 +62,9 @@ DBICx::DataDictionary - Define a data dictionary to use with your DBIx::Class Sc
       size        => 100,
     };
     
+    # SHORT_NAME is based on NAME
+    add_type SHORT_NAME => NAME(size => 40);
+    
     1;
     
     
@@ -119,7 +122,16 @@ by default) like this:
 
 
 Each type declared is available as an optional exported symbol from your
-class library. To use them in your sources:
+class library.
+
+You can even create another type extending a previous one like this:
+
+    add_type SHORT_NAME => NAME(size => 40);
+
+
+This creates the C<SHORT_NAME> type, using C<NAME> as a base and changing the size to 40.
+
+To use these types in your sources, do:
 
     use My::DataDictionary qw( PK );
 

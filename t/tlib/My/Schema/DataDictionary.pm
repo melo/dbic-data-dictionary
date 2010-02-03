@@ -16,4 +16,6 @@ add_type NAME => {
   size        => 100,
 };
 
+add_type SHORT_NAME => NAME(size => 40);
+
 1;

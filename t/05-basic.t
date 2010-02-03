@@ -6,7 +6,7 @@ use lib 't/tlib';
 use Test::More;
 use Test::Deep;
 
-use My::Schema::DataDictionary qw(PK NAME);
+use My::Schema::DataDictionary qw(PK NAME SHORT_NAME);
 
 cmp_deeply(
   PK,
@@ -29,6 +29,14 @@ cmp_deeply(
   { data_type   => 'varchar',
     is_nullable => 0,
     size        => 100,
+  }
+);
+
+cmp_deeply(
+  SHORT_NAME,
+  { data_type   => 'varchar',
+    is_nullable => 0,
+    size        => 40,
   }
 );
 
