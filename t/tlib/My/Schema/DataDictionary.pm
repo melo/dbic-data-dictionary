@@ -24,4 +24,10 @@ add_type VISIBILITY => {
   options   => [qw( ab cd )],
 };
 
+add_type XPTO => {
+  data_type => 'varchar',
+  size      => 20,
+  default   => sub {'xpto is here'},
+};
+
 1;

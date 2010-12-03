@@ -23,6 +23,7 @@ sub add_type {
   my $export_tags = join('::', $ns, 'EXPORT_TAGS');
 
   $spec->{extra}{options} = delete $spec->{options} if $spec->{options};
+  $spec->{extra}{default} = delete $spec->{default} if $spec->{default};
 
   no strict 'refs';
   *{$full_name} = sub { +{ %$spec, @_ } };

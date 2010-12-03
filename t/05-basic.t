@@ -6,7 +6,7 @@ use lib 't/tlib';
 use Test::More;
 use Test::Deep;
 
-use My::Schema::DataDictionary qw(PK NAME SHORT_NAME VISIBILITY);
+use My::Schema::DataDictionary qw(PK NAME SHORT_NAME VISIBILITY XPTO);
 
 cmp_deeply(
   PK,
@@ -55,5 +55,14 @@ cmp_deeply(
     extra     => {options => [qw( ab cd )]},
   }
 );
+
+cmp_deeply(
+  XPTO,
+  { data_type => 'varchar',
+    size      => 20,
+    extra     => {default => ignore()},
+  }
+);
+is(XPTO->{extra}{default}->(), 'xpto is here');
 
 done_testing();
