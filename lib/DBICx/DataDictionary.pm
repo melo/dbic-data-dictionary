@@ -9,7 +9,7 @@ use parent 'Exporter';
 sub import {
   {
     no strict 'refs';
-    unshift @{caller().'::ISA'}, 'Exporter';
+    unshift @{caller() . '::ISA'}, 'Exporter';
   }
 
   goto \&Exporter::import;
@@ -26,7 +26,7 @@ sub add_type {
   $spec->{extra}{default} = delete $spec->{default} if $spec->{default};
 
   no strict 'refs';
-  *{$full_name} = sub { +{ %$spec, @_ } };
+  *{$full_name} = sub { +{%$spec, @_} };
   push @{$export_ok}, $name;
   ${$export_tags}{all} ||= \@{$export_ok};
 
