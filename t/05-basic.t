@@ -6,7 +6,7 @@ use lib 't/tlib';
 use Test::More;
 use Test::Deep;
 
-use My::Schema::DataDictionary qw(PK NAME SHORT_NAME);
+use My::Schema::DataDictionary qw(PK NAME SHORT_NAME VISIBILITY);
 
 cmp_deeply(
   PK,
@@ -45,6 +45,14 @@ cmp_deeply(
   { data_type   => 'varchar',
     is_nullable => 0,
     size        => 200,
+  }
+);
+
+cmp_deeply(
+  VISIBILITY,
+  { data_type => 'varchar',
+    size      => 32,
+    extra     => {options => [qw( ab cd )]},
   }
 );
 

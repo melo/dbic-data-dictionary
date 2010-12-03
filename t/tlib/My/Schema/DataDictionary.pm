@@ -18,4 +18,10 @@ add_type NAME => {
 
 add_type SHORT_NAME => NAME(size => 40);
 
+add_type VISIBILITY => {
+  data_type => 'varchar',
+  size      => 32,
+  options   => [qw( ab cd )],
+};
+
 1;
