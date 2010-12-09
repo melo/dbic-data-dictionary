@@ -22,11 +22,14 @@ sub add_type {
   my $export_ok   = join('::', $ns, 'EXPORT_OK');
   my $export_tags = join('::', $ns, 'EXPORT_TAGS');
 
-  $spec->{extra}{options} = delete $spec->{options} if $spec->{options};
-  $spec->{extra}{default} = delete $spec->{default} if $spec->{default};
-
   no strict 'refs';
-  *{$full_name} = sub { +{%$spec, @_} };
+  *{$full_name} = sub {
+    my $s = {%$spec, @_};
+    $s->{extra}{options} = delete $s->{options} if $s->{options};
+    $s->{extra}{default} = delete $s->{default} if $s->{default};
+
+    return $s;
+  };
   push @{$export_ok}, $name;
   ${$export_tags}{all} ||= \@{$export_ok};
 
