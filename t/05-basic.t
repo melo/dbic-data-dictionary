@@ -33,6 +33,15 @@ cmp_deeply(
 );
 
 cmp_deeply(
+  NAME('extra.formatter' => sub { }),
+  { data_type   => 'varchar',
+    is_nullable => 0,
+    size        => 100,
+    extra       => {formatter => ignore()},
+  }
+);
+
+cmp_deeply(
   SHORT_NAME,
   { data_type   => 'varchar',
     is_nullable => 0,

@@ -28,10 +28,25 @@ sub add_type {
     $s->{extra}{options} = delete $s->{options} if $s->{options};
     $s->{extra}{default} = delete $s->{default} if $s->{default};
 
+    _expand_hier_keys($s);
+
     return $s;
   };
   push @{$export_ok}, $name;
   ${$export_tags}{all} ||= \@{$export_ok};
+
+  return;
+}
+
+sub _expand_hier_keys {
+  my ($s) = @_;
+
+  for my $k (keys %$s) {
+    my ($l1, $l2) = split(/[.]/, $k, 2);
+    next unless $l2;
+
+    $s->{$l1}{$l2} = delete $s->{$k};
+  }
 
   return;
 }
