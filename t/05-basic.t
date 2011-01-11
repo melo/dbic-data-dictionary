@@ -6,7 +6,10 @@ use lib 't/tlib';
 use Test::More;
 use Test::Deep;
 
-use My::Schema::DataDictionary qw(PK NAME SHORT_NAME VISIBILITY XPTO);
+use My::Schema::DataDictionary qw(
+  PK NAME SHORT_NAME VISIBILITY
+  XPTO BASE_DATE OTHER_DATE
+);
 
 cmp_deeply(
   PK,
@@ -81,6 +84,46 @@ cmp_deeply(
     extra     => {default => 'defme', options => ['a', 'b']},
   }
 );
+
+
+subtest 'Test deep clone' => sub {
+
+  my $t = BASE_DATE();
+  cmp_deeply(
+    $t,
+    { data_type                 => 'date',
+      is_nullable               => 1,
+      datetime_undef_if_invalid => 1,
+      extra                     => {formatter => ignore()},
+    },
+    'Baseline BASE_DATE type'
+  );
+
+  $t = OTHER_DATE('extra.label' => 'y');
+  cmp_deeply(
+    $t,
+    { data_type                 => 'date',
+      is_nullable               => 1,
+      datetime_undef_if_invalid => 1,
+      extra                     => {
+        formatter => ignore(),
+        label     => 'y',
+      },
+    },
+    "Expand OTHER_DATE a bit $t->{extra}"
+  );
+
+  $t = BASE_DATE();
+  cmp_deeply(
+    $t,
+    { data_type                 => 'date',
+      is_nullable               => 1,
+      datetime_undef_if_invalid => 1,
+      extra                     => {formatter => ignore()},
+    },
+    "Basic BASE_DATE type still the same $t->{extra}"
+  );
+};
 
 
 done_testing();

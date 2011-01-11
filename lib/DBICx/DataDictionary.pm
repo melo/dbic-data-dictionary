@@ -24,10 +24,10 @@ sub add_type {
 
   no strict 'refs';
   *{$full_name} = sub {
-    my $s = {%$spec, @_};
+    my $s = _clone_hash($spec, @_);
+
     $s->{extra}{options} = delete $s->{options} if $s->{options};
     $s->{extra}{default} = delete $s->{default} if $s->{default};
-
     _expand_hier_keys($s);
 
     return $s;
@@ -50,6 +50,44 @@ sub _expand_hier_keys {
 
   return;
 }
+
+sub _clone_hash {
+  my $o = shift;
+  my %d;
+
+  while (my ($k, $v) = each %$o) {
+    my $r = ref($v);
+
+    if    ($r eq 'HASH')  { $v = _clone_hash($v) }
+    elsif ($r eq 'ARRAY') { $v = _clone_array($v) }
+
+    $d{$k} = $v;
+  }
+
+  while (@_) {
+    my ($k, $v) = splice(@_, 0, 2);
+    $d{$k} = $v;
+  }
+
+  return \%d;
+}
+
+sub _clone_array {
+  my $o = shift;
+  my @d;
+
+  for my $v (@$o) {
+    my $r = ref($v);
+
+    if    ($r eq 'HASH')  { $v = _clone_hash($v) }
+    elsif ($r eq 'ARRAY') { $v = _clone_array($v) }
+
+    push @d, $v;
+  }
+
+  return \@d;
+}
+
 
 1;
 

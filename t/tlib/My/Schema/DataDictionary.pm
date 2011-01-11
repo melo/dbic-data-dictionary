@@ -30,4 +30,15 @@ add_type XPTO => {
   default   => sub {'xpto is here'},
 };
 
+add_type BASE_DATE => {
+  data_type                 => 'date',
+  is_nullable               => 1,
+  datetime_undef_if_invalid => 1,
+  extra                     => {
+    formatter => sub { }
+  },
+};
+
+add_type OTHER_DATE => BASE_DATE();
+
 1;
