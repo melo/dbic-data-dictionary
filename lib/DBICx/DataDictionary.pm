@@ -30,6 +30,11 @@ sub add_type {
     $s->{extra}{default} = delete $s->{default} if $s->{default};
     _expand_hier_keys($s);
 
+    $s->{default_value} = $s->{extra}{default}
+      if exists $s->{extra}
+        && exists $s->{extra}{default}
+        && !ref($s->{extra}{default});
+
     return $s;
   };
   push @{$export_ok}, $name;

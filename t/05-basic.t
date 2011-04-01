@@ -79,9 +79,10 @@ is(XPTO->{extra}{default}->(), 'xpto is here');
 
 cmp_deeply(
   XPTO(default => 'defme', options => ['a', 'b']),
-  { data_type => 'varchar',
-    size      => 20,
-    extra     => {default => 'defme', options => ['a', 'b']},
+  { data_type     => 'varchar',
+    size          => 20,
+    default_value => 'defme',
+    extra         => {default => 'defme', options => ['a', 'b']},
   }
 );
 
